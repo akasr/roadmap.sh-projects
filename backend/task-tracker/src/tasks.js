@@ -14,6 +14,12 @@ export const addTask = async (task) => {
 };
 
 export const listAll = async () => {
-  const {tasks} = await getDB();
+  const { tasks } = await getDB();
   return tasks;
+};
+
+export const deleteTask = async (id) => {
+  const { tasks } = await getDB();
+  const newTasks = tasks.filter(task => task.id !== id);
+  await saveDB({tasks: newTasks});
 };
