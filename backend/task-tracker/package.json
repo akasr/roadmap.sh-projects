@@ -2,6 +2,7 @@
   "name": "task-tracker",
   "version": "1.0.0",
   "main": "index.js",
+  "type": "module",
   "bin": {
     "task-cli": "./index.js"
   },
@@ -11,5 +12,8 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": ""
+  "description": "",
+  "dependencies": {
+    "yargs": "^17.7.2"
+  }
 }
