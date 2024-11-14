@@ -1,0 +1,18 @@
+{
+  "tasks": [
+    {
+      "id": 1731598305733,
+      "description": "It's a task",
+      "status": "in-progress",
+      "createdAt": "2024-11-14T15:31:45.733Z",
+      "updatedAt": null
+    },
+    {
+      "id": 1731598413098,
+      "description": "Hey another task",
+      "status": "in-progress",
+      "createdAt": "2024-11-14T15:33:33.098Z",
+      "updatedAt": null
+    }
+  ]
+}
