@@ -4,7 +4,7 @@ export const addTask = async (task) => {
   const newTask = {
     id: Date.now(),
     description: task,
-    status: "in-progress",
+    status: "todo",
     createdAt: new Date().toISOString(),
     updatedAt: "Still to Happen",
   };
@@ -13,8 +13,11 @@ export const addTask = async (task) => {
   return newTask;
 };
 
-export const listAll = async () => {
-  const { tasks } = await getDB();
+export const listTasks = async (status="") => {
+  let { tasks } = await getDB();
+  if(status){
+    tasks = tasks.filter(task => task.status == status);
+  }
   return tasks;
 };
 
@@ -24,12 +27,12 @@ export const deleteTask = async (id) => {
   await saveDB({ tasks: newTasks });
 };
 
-export const updateTask = async (id, description) => {
+export const updateTask = async (id, property, value) => {
   const { tasks } = await getDB();
   const task = tasks.find((task) => task.id === id);
 
   await deleteTask(task.id);
-  task.description = description;
+  task[property] = value;
   task.updatedAt = new Date().toISOString();
 
   await insertDB(task);

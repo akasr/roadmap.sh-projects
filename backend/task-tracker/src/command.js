@@ -1,8 +1,8 @@
 import yargs from "yargs";
 import { hideBin } from "yargs/helpers";
-import { addTask, deleteTask, listAll, updateTask } from "./tasks.js";
+import { addTask, deleteTask, listTasks, updateTask } from "./tasks.js";
 
-const listTasks = (tasks) => {
+const formatTasks = (tasks) => {
   tasks.forEach(({ id, description, status, createdAt, updatedAt }) => {
     console.log(`id: ${id}`);
     console.log(`description: ${description}`);
@@ -25,16 +25,26 @@ yargs(hideBin(process.argv))
     },
     async (argv) => {
       const task = await addTask(argv.task);
-      console.log(`Task added: ${task.description}`);
+      console.log(`Task added successfully: ${task.id}`);
     }
   )
   .command(
-    "list",
-    "List all the tasks",
-    (yargs) => {},
+    "list [status]",
+    "List tasks",
+    (yargs) => {
+      return yargs.positional("status", {
+        describe: "Status of the tasks to be listed",
+        type: String,
+      });
+    },
     async (argv) => {
-      const tasks = await listAll();
-      listTasks(tasks);
+      let tasks;
+      if (argv.status) {
+        tasks = await listTasks(argv.status);
+      } else {
+        tasks = await listTasks();
+      }
+      formatTasks(tasks);
     }
   )
   .command(
@@ -64,9 +74,38 @@ yargs(hideBin(process.argv))
           describe: "New description of task",
           type: String,
         });
-    }, async (argv) => {
-      await updateTask(argv.id, argv.description);
-      console.log("Task has been updated!")
+    },
+    async (argv) => {
+      await updateTask(argv.id, "description", argv.description);
+      console.log("Task has been updated!");
+    }
+  )
+  .command(
+    "mark-in-progress <id>",
+    "Mark the task to be in progress",
+    (yargs) => {
+      return yargs.positional("id", {
+        describe: "Task ID to be marked in progress",
+        type: Number,
+      });
+    },
+    async (argv) => {
+      await updateTask(argv.id, "status", "in-progress");
+      console.log("Task has been marked in progress!");
+    }
+  )
+  .command(
+    "mark-done <id>",
+    "Mark the task to be done",
+    (yargs) => {
+      return yargs.positional("id", {
+        describe: "Task ID to be marked done",
+        type: Number,
+      });
+    },
+    async (argv) => {
+      await updateTask(argv.id, "status", "done");
+      console.log("Task has been marked done");
     }
   )
   .demandCommand(1)
