@@ -21,8 +21,12 @@ Make sure you have the following installed:
 1. Clone the repository:
 
     ```bash
-    git clone https://github.com/your-username/task-tracker.git  
-    cd task-tracker  
+    git clone --no-checkout https://github.com/akasr/roadmap.sh-projects.git task-tracker
+    cd task-tracker
+    git sparse-checkout init
+    git sparse-checkout set backend/task-tracker
+    git checkout
+    cd backend/task-tracker
     ```
 
 2. Install Dependencies:
@@ -80,4 +84,14 @@ Once installed, you cane use the `task-tracker` command (or `node index.js` if n
 To view all available commands and options:
 ```bash
 task-cli --help
+<<<<<<< HEAD
 ```
+=======
+```
+
+## Contributing
+Contributions are welcome! Feel free to open an issue or submit a pull request.
+
+## License
+This project is licensed under the MIT License.
+>>>>>>> 4200eb22d75b427d6a6db2e4c1b36978c466e43f
