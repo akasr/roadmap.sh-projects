@@ -14,6 +14,8 @@ const formatTasks = (tasks) => {
 };
 
 yargs(hideBin(process.argv))
+  .scriptName("task-cli")
+  .usage("$0 <command> [options]")
   .command(
     "add <task>",
     "Add a new task",
