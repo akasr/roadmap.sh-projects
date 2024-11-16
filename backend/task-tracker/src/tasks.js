@@ -20,6 +20,18 @@ export const listAll = async () => {
 
 export const deleteTask = async (id) => {
   const { tasks } = await getDB();
-  const newTasks = tasks.filter(task => task.id !== id);
-  await saveDB({tasks: newTasks});
+  const newTasks = tasks.filter((task) => task.id !== id);
+  await saveDB({ tasks: newTasks });
+};
+
+export const updateTask = async (id, description) => {
+  const { tasks } = await getDB();
+  const task = tasks.find((task) => task.id === id);
+
+  await deleteTask(task.id);
+  task.description = description;
+  task.updatedAt = new Date().toISOString();
+
+  await insertDB(task);
+  return task;
 };

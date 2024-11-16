@@ -1,6 +1,6 @@
 import yargs from "yargs";
 import { hideBin } from "yargs/helpers";
-import { addTask, deleteTask, listAll } from "./tasks.js";
+import { addTask, deleteTask, listAll, updateTask } from "./tasks.js";
 
 const listTasks = (tasks) => {
   tasks.forEach(({ id, description, status, createdAt, updatedAt }) => {
@@ -49,6 +49,24 @@ yargs(hideBin(process.argv))
     async (argv) => {
       await deleteTask(argv.id);
       console.log(`Task deleted with id: ${argv.id}`);
+    }
+  )
+  .command(
+    "update <id> <description>",
+    "Update the description of task by its ID",
+    (yargs) => {
+      return yargs
+        .positional("id", {
+          describe: "Task ID to be updated",
+          type: Number,
+        })
+        .positional("description", {
+          describe: "New description of task",
+          type: String,
+        });
+    }, async (argv) => {
+      await updateTask(argv.id, argv.description);
+      console.log("Task has been updated!")
     }
   )
   .demandCommand(1)
